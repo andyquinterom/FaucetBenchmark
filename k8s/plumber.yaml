@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plumber
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      run: plumber
+  template:
+    metadata:
+      labels:
+        run: plumber
+    spec:
+      containers:
+      - name: plumber
+        image: plumber
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plumber-headless
+  labels:
+    run: plumber-headless
+spec:
+  clusterIP: None
+  ports:
+  - port: 8000
+  selector:
+    run: plumber
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plumber-dlb
+  labels:
+    run: plumber-dlb
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8000
+      targetPort: 8000
+  selector:
+    run: plumber

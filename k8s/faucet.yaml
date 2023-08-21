@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: faucet
+spec:
+  selector:
+    matchLabels:
+      run: faucet
+  template:
+    metadata:
+      labels:
+        run: faucet
+    spec:
+      containers:
+      - name: faucet
+        image: faucet
+        command: ["faucet"]
+        args: ["--host", "0.0.0.0", "-t", "4", "k8s", "--service-url", "http://plumber-headless:8000"]
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: faucet
+  labels:
+    run: faucet
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
+  selector:
+    run: faucet
