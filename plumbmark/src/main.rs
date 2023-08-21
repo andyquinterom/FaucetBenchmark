@@ -57,6 +57,8 @@ async fn main() {
         .collect::<Vec<std::time::Duration>>();
     // Calculate average request time
     let average_request_time = durations.iter().sum::<std::time::Duration>() / durations.len() as u32;
+    // Calculate the 25th percentile request time
+    let percentile_25_request_time = durations[(durations.len() as f32 * 0.25) as usize];
     // Calculate the median request time
     let median_request_time = durations[durations.len() / 2];
     // Calculate the 95th percentile request time
@@ -67,6 +69,7 @@ async fn main() {
     println!("Total requests: {}", durations.len());
     println!("Total time: {:?}", total_time);
     println!("Average request time: {:?}", average_request_time);
+    println!("25th percentile request time: {:?}", percentile_25_request_time);
     println!("Median request time: {:?}", median_request_time);
     println!("95th percentile request time: {:?}", percentile_95_request_time);
     println!("99th percentile request time: {:?}", percentile_99_request_time);
