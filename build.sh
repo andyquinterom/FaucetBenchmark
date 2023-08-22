@@ -3,6 +3,8 @@
 # Build the docker images
 eval $(minikube docker-env)
 
+./clean.sh
+
 docker build -t faucet images/faucet
 docker build -t plumber images/plumber
 docker build -t plumbmark plumbmark

@@ -7,8 +7,10 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.3.23", features = ["derive"] }
+csv = "1.2.2"
 futures = "0.3.28"
 itertools = "0.11.0"
 reqwest = { version = "0.11.18", default-features = false, features = ["rustls", "hyper-rustls", "tokio-rustls", "rustls-tls"] } 
+serde = { version = "1.0.185", features = ["derive"] }
 tokio = { version = "1.32.0", features = ["full"] }
 url = "2.4.0"

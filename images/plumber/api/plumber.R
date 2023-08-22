@@ -1,27 +1,23 @@
 # plumber.R
 
-heavy_operation <- function(iterations) {
-  value = 0;
-  for (i in 1:(iterations * 1000)) {
-    value = (sin(value) ^ 2) + (cos(value) ^ 2)
-  }
-  return(value)
+heavy_operation <- function(millis) {
+  Sys.sleep(millis / 1000)
 }
 
-#* Do heavy operation with 1000 iterations
+#* @param weight
 #* @get /stress1
-function() {
-  heavy_operation(1e3)
+function(weight) {
+  heavy_operation(5 * as.numeric(weight))
 }
 
-#* Do heavy operation with 10_000 iterations
+#* @param weight
 #* @get /stress2
-function() {
-  heavy_operation(1e4)
+function(weight) {
+  heavy_operation(10 * as.numeric(weight))
 }
 
-#* Do heavy operation with 100_000 iterations
+#* @param weight
 #* @get /stress3
-function() {
-  heavy_operation(1e5)
+function(weight) {
+  heavy_operation(15 * as.numeric(weight))
 }

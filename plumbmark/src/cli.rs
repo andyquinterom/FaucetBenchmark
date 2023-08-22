@@ -1,10 +1,9 @@
 use clap::Parser;
 use url::Url;
 
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Clone)]
 pub struct Args {
-    /// The target URL to stress.
-    #[arg(short, long)]
+    /// The target URL to stress. #[arg(short, long)]
     target: Url,
 
     /// Number of times to repeat the requests.
@@ -14,13 +13,19 @@ pub struct Args {
     /// Simultaenous requests.
     #[arg(short, long)]
     concurrency: usize,
+
 }
 
 impl Args {
-    pub fn get_url(&self, path: &str) -> Url {
+    pub fn get_url(&self, path: &str, weight: usize) -> Url {
         let mut url = self.target.clone();
         url.set_path(path);
+        url.query_pairs_mut()
+            .append_pair("weight", &weight.to_string());
         url
+    }
+    pub fn get_url_string(&self) -> String {
+        self.target.to_string()
     }
     pub fn get_iterations(&self) -> usize {
         self.iterations
